@@ -1,0 +1,30 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/nginx
+
+- name: Update and upgrade ubuntu server
+  apt:
+    update_cache: yes
+    upgrade: dist
+  when: ansible_distribution=="Ubuntu"
+
+- name: Install Nginx on Ubuntu Server
+  apt:
+    name: nginx
+    state: latest
+  when: ansible_distribution=="Ubuntu"
+  notify: restart nginx
+
+- name: Update and upgrade Amazon server
+  yum:
+    name: '*'
+    state: latest
+  when: ansible_distribution=="Amazon"
+
+- name: Install Nginx on Amazon Server
+  yum:
+    name: nginx
+    state: present
+  when: ansible_distribution=="Amazon"
+  notify: restart nginx
+
